@@ -3,6 +3,7 @@ Class for WatoCmd
 """
 # pylint: disable=R0903,W0201
 
+import sys
 import logging
 import json
 import requests
@@ -65,7 +66,10 @@ class AddHost(WatoCmd):
 
     def __init__(self, wato_url, username, password,
                  folder, hostname, attributes=None):
-        super().__init__(wato_url, username, password)
+        if sys.version_info < (3,):
+            super(AddHost, self).__init__(wato_url, username, password)
+        else:
+            super().__init__(wato_url, username, password)
         if attributes is None:
             attributes = {}
         self.folder = folder
@@ -139,7 +143,10 @@ class EditHost(WatoCmd):
 
     def __init__(self, wato_url, username, password,
                  hostname, attributes=None, unset_attributes=None):
-        super().__init__(wato_url, username, password)
+        if sys.version_info < (3,):
+            super(EditHost, self).__init__(wato_url, username, password)
+        else:
+            super().__init__(wato_url, username, password)
         if attributes is None:
             attributes = {}
         if unset_attributes is None:
@@ -193,7 +200,10 @@ class DeleteHost(WatoCmd):
     """
 
     def __init__(self, wato_url, username, password, hostname):
-        super().__init__(wato_url, username, password)
+        if sys.version_info < (3,):
+            super(DeleteHost, self).__init__(wato_url, username, password)
+        else:
+            super().__init__(wato_url, username, password)
         self.hostname = hostname
         UKMDB_LOG.debug("""cmd.DeleteHost(
             wato_url='%(wato_url)s',
@@ -245,7 +255,10 @@ class GetHost(WatoCmd):
 
     def __init__(self, wato_url, username, password,
                  hostname):
-        super().__init__(wato_url, username, password)
+        if sys.version_info < (3,):
+            super(GetHost, self).__init__(wato_url, username, password)
+        else:
+            super().__init__(wato_url, username, password)
         self.hostname = hostname
         UKMDB_LOG.debug("""WatoCmd:get_host_Cmd(
             wato_url='%(wato_url)s',
@@ -294,7 +307,10 @@ class GetAllHosts(WatoCmd):
     """
 
     def __init__(self, wato_url, username, password):
-        super().__init__(wato_url, username, password)
+        if sys.version_info < (3,):
+            super(GetAllHosts, self).__init__(wato_url, username, password)
+        else:
+            super().__init__(wato_url, username, password)
         UKMDB_LOG.debug("""WatoCmd:get_all_host_Cmd(
             wato_url='%(wato_url)s',
             username='%(username)s',
@@ -355,7 +371,10 @@ class DiscoverServices(WatoCmd):
     """
 
     def __init__(self, wato_url, username, password, hostname, mode='new'):
-        super().__init__(wato_url, username, password)
+        if sys.version_info < (3,):
+            super(DiscoverServices, self).__init__(wato_url, username, password)
+        else:
+            super().__init__(wato_url, username, password)
         self.hostname = hostname
         self.mode = mode
         UKMDB_LOG.debug("""cmd.DiscoverServices(
@@ -423,7 +442,10 @@ class ActivateChanges(WatoCmd):
     """
 
     def __init__(self, wato_url, username, password, sites=None, mode='dirty', allow_foreign_changes=False):
-        super().__init__(wato_url, username, password)
+        if sys.version_info < (3,):
+            super(ActivateChanges, self).__init__(wato_url, username, password)
+        else:
+            super().__init__(wato_url, username, password)
         self.sites = sites
         self.mode = mode
         self.allow_foreign_changes = allow_foreign_changes
