@@ -35,15 +35,39 @@ queues.setup(app)
 
 
 @app.task(serializer='json',
-          name='worker.add_object',
+          name='ukmdb.add_object',
           queue='ukmdb_monitoring01',
           exchange='ukmdb_all_in',
           routing_key='#',
           bind=True
           )
 def add_object(self, msg):
-    ukmdb_log.debug("-------> self.request: '%s'", pformat(self.request))
-    ukmdb_log.debug("check_mk # add_object: '%s'", str(msg))
+    ukmdb_log.info("-------> self.request: '%s'", pformat(self.request))
+    ukmdb_log.info("check_mk # add_object: '%s'", str(msg))
+
+
+@app.task(serializer='json',
+          name='ukmdb.edit_object',
+          queue='ukmdb_monitoring01',
+          exchange='ukmdb_all_in',
+          routing_key='#',
+          bind=True
+          )
+def edit_object(self, msg):
+    ukmdb_log.info("-------> self.request: '%s'", pformat(self.request))
+    ukmdb_log.info("check_mk # edit_object: '%s'", str(msg))
+
+
+@app.task(serializer='json',
+          name='ukmdb.del_object',
+          queue='ukmdb_monitoring01',
+          exchange='ukmdb_all_in',
+          routing_key='#',
+          bind=True
+          )
+def del_object(self, msg):
+    ukmdb_log.info("-------> self.request: '%s'", pformat(self.request))
+    ukmdb_log.info("check_mk # check_mk:::del_object: '%s'", str(msg))
 
 
 def main():
