@@ -43,7 +43,7 @@ setup(
     keywords='ukmdb checkmk',
     entry_points={
         'console_scripts': [
-            'ukm_checkmk = ukmdb_checkmk.checkmk:main',
+            'ukm_ckmk = ukmdb_checkmk.checkmk:main',
             'ukm_checkmk_sb_get_all = ukmdb_checkmk.sandbox_get_all:main'
         ],
     },

@@ -1,7 +1,7 @@
 """
 Class for WatoCmd
 """
-# pylint: disable=R0903,W0201
+# pylint: disable=R0903,W0201,E501
 
 import sys
 import logging
@@ -27,7 +27,9 @@ class WatoCmd(object):
     def __repr__(self):
         return '<' + \
             type(self).__name__ + \
-            "(cmd:'%(cmd)s(%(wato_url)s)', request:'%(request)s', response:'%(response)s')" % self.__dict__ + \
+            "(cmd:'%(cmd)s(%(wato_url)s)', " % self.__dict__ + \
+            "request:'%(request)s', " % self.__dict__ + \
+            "response:'%(response)s')" % self.__dict__ + \
             '>'
 
 
@@ -60,8 +62,8 @@ class AddHost(WatoCmd):
         curl "http://10.20.30.40/mysite/check_mk/webapi.py?action=ad
         d_host&_username=autouser&_secret=mysecret" -d
         'request={"attributes":{"alias": "Alias of winxp_1", "tag_agent": "cmk-
-        agent", "tag_criticality": "prod", "ipaddress": "127.0.0.1"}, "hostname":
-        "winxp_1", "folder": "os/windows"}'
+        agent", "tag_criticality": "prod", "ipaddress": "127.0.0.1"},
+        "hostname": "winxp_1", "folder": "os/windows"}'
     """
 
     def __init__(self, wato_url, username, password,
@@ -178,7 +180,6 @@ class EditHost(WatoCmd):
         UKMDB_LOG.debug("url: %s", self.response.url)
         UKMDB_LOG.debug("request body: %s", self.response.request.body)
         UKMDB_LOG.debug("return text: %s", self.response.text)
-#        wato_logger.info("return text / result_code: %s" % self.response.text['result_code'])
         UKMDB_LOG.debug("return status_code: %s", self.response.status_code)
         UKMDB_LOG.debug("reason: %s", self.response.reason)
         if self.resultcode != 0:
@@ -372,7 +373,9 @@ class DiscoverServices(WatoCmd):
 
     def __init__(self, wato_url, username, password, hostname, mode='new'):
         if sys.version_info < (3,):
-            super(DiscoverServices, self).__init__(wato_url, username, password)
+            super(DiscoverServices, self).__init__(wato_url,
+                                                   username,
+                                                   password)
         else:
             super().__init__(wato_url, username, password)
         self.hostname = hostname
@@ -441,7 +444,9 @@ class ActivateChanges(WatoCmd):
         'request={"sites":["site_nr1", "site_nr2"]}'
     """
 
-    def __init__(self, wato_url, username, password, sites=None, mode='dirty', allow_foreign_changes=False):
+    def __init__(self, wato_url, username,
+                 password, sites=None, mode='dirty',
+                 allow_foreign_changes=False):
         if sys.version_info < (3,):
             super(ActivateChanges, self).__init__(wato_url, username, password)
         else:
@@ -460,7 +465,9 @@ class ActivateChanges(WatoCmd):
     def send_request(self):
         UKMDB_LOG.debug("WatoCmd:activate_changes_Cmd.send_request()")
         payload = {}
-        self.response = requests.post("%s?action=activate_changes&mode=dirty" % self.wato_url +
+        self.response = requests.post("%s" % self.wato_url +
+                                      "?action=activate_changes" +
+                                      "&mode=dirty" +
                                       "&_username=%s" % self.username +
                                       "&_secret=%s" % self.password,
                                       auth=(self.username, self.password),
